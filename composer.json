@@ -1,0 +1,27 @@
+{
+    "name": "webforge/fatal-error-handler",
+    "description": "A really simple class that can report fata errors by mail",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Philipp Scheit",
+            "email": "p.scheit@ps-webforge.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+
+    },
+    "require-dev": {
+    },
+     "autoload": {
+         "psr-0": {
+             "Webforge": ["lib/"]
+         }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0.x-dev"
+        }
+    }
+}
