@@ -40,10 +40,9 @@ class FatalErrorHandler {
 
     if (is_array($error)) {
       extract($error);
+
+      $this->sendDebugEmail($type, $message, $file, $line);
     }
-
-    $this->sendDebugEmail($type, $message, $file, $line);
-
   }
 
   public function sendDebugEmail($type, $message, $file, $line) {
