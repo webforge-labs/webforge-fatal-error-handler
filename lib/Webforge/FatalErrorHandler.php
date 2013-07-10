@@ -51,8 +51,13 @@ class FatalErrorHandler {
 
     /* Debug-Mail */
     $text = NULL;
-    $text .= '['.date('d.M.Y H:i:s')."] ";
-    $text .= $typeString.': '.$message."\n";
+    $text .= '['.date('d.M.Y H:i:s')."]\n";
+    $text .= sprintf("%s in %s:%d with message:\n", $typeString, $file, $line);
+    $text .= "\n";
+    $text .= $message."\n";
+    $text .= "\n";
+    $text .= "--\n";
+    $text .= sprintf("sent from %s\n%s:%d\n", __CLASS__, __FILE__, __LINE__);
 
     $subject = '[FatalErrorHandler] '.substr($message, 0, 120);
     
