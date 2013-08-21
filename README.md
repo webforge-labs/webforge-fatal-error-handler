@@ -7,7 +7,7 @@ A really simple class that can report fata errors by mail
 
 Use [Composer](http://getcomposer.org) to install.
 ```
-composer require -v --prefer-source webforge/fatal-error-handler
+composer require -v --prefer-source webforge/fatal-error-handler @stable
 ```
 
 ## Usage
