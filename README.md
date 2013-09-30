@@ -20,3 +20,11 @@ $handler->register();
 ```
 
 Fatal errors coming after these lines will be tried to be mailed with mail(). If mail() fails a notice is written into the php error log
+
+## Roadmap
+
+  - add some simple rules to filter some errors (e.g. wanted errors from tests)
+
+## Known issues
+
+  - sometimes dom library triggers the fatal error handler for entities that cannot be parsed
