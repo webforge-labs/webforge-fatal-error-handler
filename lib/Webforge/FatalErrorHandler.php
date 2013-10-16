@@ -26,8 +26,16 @@ class FatalErrorHandler {
    */
   protected $recipient;
 
-  public function __construct($recipient) {
+  /**
+   * @var Closure function($recipient, $subject, $text, $headersString) {
+   */
+  protected $mailCallback;
+
+  public function __construct($recipient, \Closure $mailCallback = NULL) {
     $this->recipient = $recipient;
+    $this->mailCallback = $mailCallback ?: function($recipient, $subject, $text, $headersString) {
+      return @mail($recipient, $subject, $text, $headerString);
+    };
   }
 
   public function handle() {
@@ -35,17 +43,18 @@ class FatalErrorHandler {
     $file = "unknown file";
     $line  = "shutdown";
     $message = "unkown message";
+    $trace = debug_backtrace();
 
     $error = error_get_last();
 
     if (is_array($error)) {
       extract($error);
 
-      $this->sendDebugEmail($type, $message, $file, $line);
+      $this->sendDebugEmail($type, $message, $file, $line, $trace);
     }
   }
 
-  public function sendDebugEmail($type, $message, $file, $line) {
+  public function sendDebugEmail($type, $message, $file, $line, $trace) {
     $typeString = self::$errors[$type];
 
     /* Debug-Mail */
@@ -55,12 +64,16 @@ class FatalErrorHandler {
     $text .= "\n";
     $text .= $message."\n";
     $text .= "\n";
+    $text .= $this->formatBacktrace($trace);
+    $text .= "\n";
     $text .= "--\n";
     $text .= sprintf("sent from %s\n%s:%d\n", __CLASS__, __FILE__, __LINE__);
 
+
     $subject = '[FatalErrorHandler] '.substr($message, 0, 120);
     
-    $ret = @mail(
+    $cb = $this->mailCallback;
+    $ret = $cb(
       $this->recipient,
       $subject,
       $text,
@@ -69,7 +82,7 @@ class FatalErrorHandler {
     );
 
     if ($ret === FALSE) {
-      error_log('[FatalErrorHandler.php:'.__LINE__.'] Die Fehlerinformationen konnten nicht an den lokalen Mailer übergeben werden.', 0);
+      error_log('[FatalErrorHandler.php:'.__LINE__.'] Cannot mail fatal-error-details with a local mailer.', 0);
     }
   }
 
@@ -82,6 +95,27 @@ class FatalErrorHandler {
     } else {
       return 'unkown-host';
     }
+  }
+
+  protected function formatBacktrace($trace) {
+    //http://stackoverflow.com/questions/1423157/print-php-call-stack
+
+    $stack = '';
+    $i = 1;
+    foreach($trace as $key=>$node) {
+      if ($key === 0) {
+        $node['file'] = __FILE__;
+        $node['line'] = __LINE__;
+      }
+      $stack .= "#$i ".$node['file'] ."(" .$node['line']."): "; 
+      if(isset($node['class'])) {
+        $stack .= $node['class'] . "->"; 
+      }
+      $stack .= $node['function'] . "()" . "\n";
+      $i++;
+    }
+
+    return $stack;
   }
 
   public function register() {
