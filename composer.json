@@ -2,7 +2,7 @@
     "name": "webforge/fatal-error-handler",
     "description": "A really simple class that can report fata errors by mail",
     "license": "MIT",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "authors": [
         {
             "name": "Philipp Scheit",
