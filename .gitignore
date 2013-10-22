@@ -1,3 +1,5 @@
 /tests/files/output.txt
 
 /fatal-error-handler.sublime-workspace
+/composer.lock
+/vendor

@@ -13,6 +13,7 @@
 
     },
     "require-dev": {
+        "liip/rmt": "0.9.*"
     },
      "autoload": {
          "psr-0": {
