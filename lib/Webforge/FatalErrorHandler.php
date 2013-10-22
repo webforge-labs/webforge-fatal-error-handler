@@ -34,7 +34,7 @@ class FatalErrorHandler {
   public function __construct($recipient, \Closure $mailCallback = NULL) {
     $this->recipient = $recipient;
     $this->mailCallback = $mailCallback ?: function($recipient, $subject, $text, $headersString) {
-      return @mail($recipient, $subject, $text, $headerString);
+      return @mail($recipient, $subject, $text, $headersString);
     };
   }
 
