@@ -18,7 +18,8 @@ class FatalErrorHandler {
     E_USER_NOTICE        => 'Notice',
     E_STRICT             => 'Strict Standards',
     E_RECOVERABLE_ERROR  => 'Catchable Fatal Error',
-    E_DEPRECATED         => 'E_DEPRECATED'
+    E_DEPRECATED         => 'E_DEPRECATED',
+    E_USER_DEPRECATED    => 'E_USER_DEPRECATED'
   );
 
   /**
